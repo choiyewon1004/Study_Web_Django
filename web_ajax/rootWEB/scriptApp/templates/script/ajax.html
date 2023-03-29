@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax page</title>
+</head>
+<body>
+  <label>제조사</label>
+  <select id="maker">
+    <option>choose one</option>
+    <option>BMW</option>
+    <option>AUDI</option>
+    <option>BENZ</option>
+  </select>
+  <br/>
+  <label>차종</label>
+  <select id="kind">
+    <option>choose one</option>
+  </select>
+
+  <hr/>
+  <button id="apiBtn"> open api button </button>
+  <div id="open_api">
+    <div>
+
+
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('#apiBtn').click(function(){
+        //window.alert("click")
+
+        $.ajax({
+          url : 'https://reqres.in/api/users',
+          dataType : 'json',
+          success: function(dict){
+            txt = ''
+            $.each(dict.data, function(idx, obj){
+              txt += '<div><h2>' +obj.first_name +'</h2>'
+              txt+= '<img src ='+ obj.avatar+'></div>'
+            })
+            window.alert(txt)
+            $('#open_api')
+            .empty()
+            .html(txt)
+          }
+        })
+      })
+
+
+      $('#maker').change(function(){
+        //비동기식
+        $.ajax({
+          url : '../maker/',
+          type : 'post',
+          data : {'csrfmiddlewaretoken' : '{{csrf_token}}','maker':  $('#maker').val()},
+          dataType : 'json',
+          success: function(lst){
+            //window.alert('success' );
+            //window.alert(lst[0]['data'] );
+
+            $.each(lst, function(idx,obj){
+              console.log(obj.maker)
+              txt =''
+              $.each(obj.data, function(idx,kind){
+                txt += '<option>'+kind+'</option>'
+              })
+              //window.alert(txt)
+            })
+            $('#kind')
+            .empty()
+            .html(txt)
+
+          }
+        })
+      })
+      //window.alert('load event')
+
+    })
+  </script>
+
+</body>
+</html>

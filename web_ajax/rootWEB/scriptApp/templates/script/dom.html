@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dom 문서 </title>
+</head>
+<body>
+
+  <form>
+    <pre>Document 영역</pre>
+    <input type="text" name = "msg" id="msg">
+    <input type="button" value = "send" onclick="showMsg()">
+  </form>
+
+  <form id="loginForm">
+    <input type="text" name = "id" id="id">
+    <input type="text" name = "pwd" id="pwd">
+
+    <input type="button" value = "send" id="sendBtn">
+  </form>
+
+  <p/>
+  <button id="btn">조회</button>
+  <table border="1">
+    <tr>
+      <th>id</th>
+      <th>pwd</th>
+
+      <tbody id="tbody">
+
+      </tbody>
+    </tr>
+  </table>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    var msg = '스크립트에서 변수 선언';
+    function showMsg(){
+      console.log("show")
+      //요소
+      //var value = document.getElementById('msg');
+      // = $('#snedBtn')
+      var value = document.getElementById('msg').value
+
+      if(value ==''){
+        window.alert('input message');
+      }else{
+        window.alert('value :  '+value);
+      }
+    }
+
+
+    //J-Query 방식
+    user_lst = [{'id' : 'yewon' ,'pwd' : 'yewon'},{'id' : 'admin' ,'pwd' : 'admin'}]
+    $(document).ready(function(){
+      $('#sendBtn').click(function(){
+        var id = $('#id').val()
+        var pwd = $('#pwd').val()
+        console.log(id+" "+pwd)
+        if(id =='' || pwd==''){
+          window.alert('dismiss user');
+        }else{
+          window.alert('id :'+id+ '\n pwd : '+ pwd);
+          $('#loginForm')
+           .prop('method', 'get')
+           .prop('action','login')
+            .submit();
+        }
+      })
+
+      $('#btn').click(function (){
+        window.alert('click btn')
+
+        txt = ''
+        $.each(user_lst, function(idx,obj){
+          txt += '<tr>'
+          txt += '<td>'+obj.id +'</td><td>'+obj.pwd + '</td>'
+          txt+='</tr>'
+        })
+
+        window.alert(txt)
+        $('#tbody')
+        .empty()
+        .html(txt)
+      })
+
+
+    })
+
+
+  </script>
+
+
+</body>
+</html>
